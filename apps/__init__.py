@@ -11,6 +11,8 @@ def create_app(config_type):
     app.config.from_object(config_dict[config_type])
     global db
     db = SQLAlchemy(app)
+
+    # 注册蓝图
     from apps.auth import auth_blueprint
     app.register_blueprint(auth_blueprint)
     from apps.bio import bio_blueprint
