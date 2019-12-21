@@ -15,10 +15,12 @@ def create_app(config_type):
     # 注册蓝图
     from apps.auth import auth_blueprint
     app.register_blueprint(auth_blueprint)
+    # 注册简历蓝图
     from apps.bio import bio_blueprint
-    app.register_blueprint(bio_blueprint)
+    app.register_blueprint(bio_blueprint, url_prefix='/bio')
+    # 注册blog蓝图
     from apps.blog import blog_blueprint
-    app.register_blueprint(blog_blueprint)
+    app.register_blueprint(blog_blueprint, url_prefix='/blog')
     Migrate(app, db)
     # 关联模型文件
     import apps.blog.database
