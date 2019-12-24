@@ -16,7 +16,9 @@ def blog_list():
 
 @blog_blueprint.route('/blog_detail')
 def blog_detail():
-    return render_template('blog/blog_detail.html')
+    blog = db.session.query(Article).first()
+    blog_dict = {'blogcontent': blog.content}
+    return render_template('blog/blog_detail.html', blog=blog_dict)
 
 
 @blog_blueprint.route('/blog_detail_json')
@@ -30,10 +32,11 @@ def blog_detail_json():
 def blog_create():
     if request.method == 'GET':
         return render_template('blog/blog_create.html')
-    else:
+    elif request.method == 'POST':
         markdown_str = request.form.get('text')
         temp_article = Article()
         temp_article.author = 'liuzhiyu'
         temp_article.content = markdown_str
         db.session.add(temp_article)
         db.session.commit()
+        return jsonify({'status':True})
