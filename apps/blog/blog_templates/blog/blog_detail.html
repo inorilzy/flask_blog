@@ -23,42 +23,41 @@
 </head>
 
 <body>
-    <!--在该div中展示,如有初始化的数据可以放在textarea中-->
-    <div id="testEditorMdview">
-        <textarea id="appendTest">{{ blog.blogcontent }}111</textarea>
-    </div>
+<!--在该div中展示,如有初始化的数据可以放在textarea中-->
+<div id="testEditorMdview">
+    <textarea id="appendTest"></textarea>
+</div>
 
 {#    <!--js开始-->#}
-    <script type="text/javascript">
-{#        //markDown转HTMl的方法#}
-        {#const get_url = "{{ url_for('blog.blog_detail_json') }}"#}
-{##}
-        {#let content;#}
-        {#$.ajax({#}
-        {#    url: get_url,#}
-        {#    type: "get",#}
-        {#    success: function (data) {#}
-        {#        content = data;#}
-        {#    }#}
-        {#})#}
-        {#console.log(content)#}
-{##}
-{##}
-        //先对容器初始化，在需要展示的容器中创建textarea隐藏标签，
-        {#$("#testEditorMdview").html('<textarea id="appendTest" style="display:none;"></textarea>');#}
-        {#var content = $("#demo1").val();//获取需要转换的内容#}
-        {#$("#appendTest").val(content);//将需要转换的内容加到转换后展示容器的textarea隐藏标签中#}
+<script type="text/javascript">
+    $(function () {
+        var content;
+        $.get("/blog/blog_detail_json", function (data, status) {
+            if (status == 'success') {
+                content = data.blogcontent;
 
-        //转换开始,第一个参数是上面的div的id
-        editormd.markdownToHTML("testEditorMdview", {
-            htmlDecode: "style,script,iframe", //可以过滤标签解码
-            emoji: true,
-            taskList: true,
-            tex: true,               // 默认不解析
-            flowChart: true,         // 默认不解析
-            sequenceDiagram: true,  // 默认不解析
+                $("#testEditorMdview").html('<textarea id="appendTest" style="display:none;"></textarea>');
+                $("#appendTest").val(content);//将需要转换的内容加到转换后展示容器的textarea隐藏标签中
+
+                editormd.markdownToHTML("testEditorMdview", {
+                    htmlDecode: "style,script,iframe", //可以过滤标签解码
+                    emoji: true,
+                    taskList: true,
+                    tex: true,               // 默认不解析
+                    flowChart: true,         // 默认不解析
+                    sequenceDiagram: true,  // 默认不解析
+                });
+            }
         });
-    </script>
+        {#var myelement = $("#appendTest");#}
+        {#myelement.text(content);#}
+        //转换开始,第一个参数是上面的div的id
+        //先对容器初始化，在需要展示的容器中创建textarea隐藏标签，
+
+
+    })
+
+</script>
 
 </body>
 </html>

@@ -16,16 +16,16 @@ def blog_list():
 
 @blog_blueprint.route('/blog_detail')
 def blog_detail():
-    blog = db.session.query(Article).first()
-    blog_dict = {'blogcontent': blog.content}
-    return render_template('blog/blog_detail.html', blog=blog_dict)
+    # blog = db.session.query(Article).first()
+    # blog_dict = {'blogcontent': blog.content}
+    return render_template('blog/blog_detail.html')
 
 
 @blog_blueprint.route('/blog_detail_json')
 def blog_detail_json():
     blog = db.session.query(Article).first()
     blog_dict = {'blogcontent': blog.content}
-    return jsonify([blog_dict])
+    return jsonify(blog_dict)
 
 
 @blog_blueprint.route('/blog_create', methods=['GET', 'POST'])
