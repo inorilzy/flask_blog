@@ -6,7 +6,7 @@
 **Editor.md** 是一款开源的、可嵌入的 Markdown 在线编辑器（组件），基于 CodeMirror、jQuery 和 Marked 构建。
     </textarea>
 </div>
-<input type="button" id="Btn" value="commit">
+<input type="button" id="Btn" value="commit">input
 <!--<script src="{{ url_for('blog.static',filename='js/jquery.min.js')}}"></script>-->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="{{ url_for('blog.static',filename='editormd/editormd.min.js')}}"></script>
@@ -17,6 +17,9 @@
             // height : "100%",
             path   : " {{ url_for('blog.static', filename='editormd/lib/') }}",
             saveHTMLToTextarea : true,
+            theme : "dark",
+            previewTheme : "dark",
+            editorTheme : "pastel-on-dark",
         });
 
         $("#Btn").click(function () {
