@@ -23,7 +23,7 @@ def blog_detail():
 
 @blog_blueprint.route('/blog_detail_json')
 def blog_detail_json():
-    blog = db.session.query(Article).first()
+    blog = db.session.query(Article).all()[-1]
     blog_dict = {'blogcontent': blog.content}
     return jsonify(blog_dict)
 
