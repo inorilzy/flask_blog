@@ -11,7 +11,16 @@ def index():
 
 @blog_blueprint.route('/blog_list')
 def blog_list():
-    return render_template('blog/blog_list.html')
+    blog_query = db.session.query(Article).all()
+    blog_list = []
+    for blog in blog_query:
+        blog_tmp = {}
+        blog_tmp['id'] = blog.id
+        blog_tmp['author'] = blog.author
+        blog_tmp['content'] = blog.content
+        blog_list.append(blog_tmp)
+
+    return render_template('blog/blog_list.html', blog_list=blog_list)
 
 
 @blog_blueprint.route('/blog_detail')
