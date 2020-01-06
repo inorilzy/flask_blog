@@ -49,3 +49,7 @@ def blog_create():
         db.session.add(temp_article)
         db.session.commit()
         return jsonify({'status':True})
+
+@blog_blueprint.route('/about')
+def about():
+    return render_template('blog/about.html')
