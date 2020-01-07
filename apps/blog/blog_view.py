@@ -1,7 +1,8 @@
 from . import blog_blueprint
-from flask import render_template, url_for, request, jsonify
+from flask import render_template, url_for, request, jsonify, redirect
 from ..blog.database import Article
 from apps import db
+import flask_whooshalchemyplus
 
 
 @blog_blueprint.route('/')
@@ -49,6 +50,23 @@ def blog_create():
         db.session.add(temp_article)
         db.session.commit()
         return jsonify({'status':True})
+
+@blog_blueprint.route('/search', methods=['GET', 'POST'])
+def search():
+    if request.method == 'POST':
+        query = request.form['search']
+        results = Article.query.whoosh_search(query).all()
+    return render_template('blog/search.html')
+#     if not request.form['search']:
+#         return redirect(url_for('index'))
+#
+#     return redirect(url_for('search',query=request.form['search']))
+#
+# @blog_blueprint.route('/search_results/<query>')
+# def search_resutls(query):
+#     results = Article.query.whoosh_search(query).all()
+#     return render_template()
+
 
 @blog_blueprint.route('/about')
 def about():
