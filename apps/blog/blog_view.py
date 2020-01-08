@@ -5,6 +5,7 @@ from apps import db
 import flask_whooshalchemyplus
 
 
+
 @blog_blueprint.route('/')
 def index():
     return render_template('blog/base.html')
@@ -43,12 +44,15 @@ def blog_create():
     if request.method == 'GET':
         return render_template('blog/blog_create.html')
     elif request.method == 'POST':
+        title_name = request.form.get('title')
         markdown_str = request.form.get('text')
         temp_article = Article()
         temp_article.author = 'liuzhiyu'
         temp_article.content = markdown_str
         db.session.add(temp_article)
         db.session.commit()
+
+        flask_whooshalchemyplus.index_one_model(Article)
         return jsonify({'status':True})
 
 @blog_blueprint.route('/search', methods=['GET', 'POST'])
@@ -56,6 +60,7 @@ def search():
     if request.method == 'POST':
         query = request.form['search']
         results = Article.query.whoosh_search(query).all()
+
     return render_template('blog/search.html')
 #     if not request.form['search']:
 #         return redirect(url_for('index'))
