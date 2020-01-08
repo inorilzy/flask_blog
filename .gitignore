@@ -1,1 +1,3 @@
 migrations
+venv
+whoosh_index

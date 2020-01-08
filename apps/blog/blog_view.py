@@ -5,7 +5,6 @@ from apps import db
 import flask_whooshalchemyplus
 
 
-
 @blog_blueprint.route('/')
 def index():
     return render_template('blog/base.html')
@@ -18,6 +17,7 @@ def blog_list():
     for blog in blog_query:
         blog_tmp = {}
         blog_tmp['id'] = blog.id
+        blog_tmp['title'] = blog.title
         blog_tmp['author'] = blog.author
         blog_tmp['content'] = blog.content
         blog_list.append(blog_tmp)
@@ -25,17 +25,17 @@ def blog_list():
     return render_template('blog/blog_list.html', blog_list=blog_list)
 
 
-@blog_blueprint.route('/blog_detail')
-def blog_detail():
-    # blog = db.session.query(Article).first()
-    # blog_dict = {'blogcontent': blog.content}
-    return render_template('blog/blog_detail.html')
+@blog_blueprint.route('/blog_detail/<int:id>')
+def blog_detail(id):
+    blog = {'id': id}
+
+    return render_template('blog/blog_detail.html', blog=blog)
 
 
-@blog_blueprint.route('/blog_detail_json')
-def blog_detail_json():
-    blog = db.session.query(Article).all()[-1]
-    blog_dict = {'blogcontent': blog.content}
+@blog_blueprint.route('/blog_detail_json/<int:id>')
+def blog_detail_json(id):
+    blog_query = db.session.query(Article).filter(Article.id == id).first()
+    blog_dict = {'blogtitle': blog_query.title, 'blogcontent': blog_query.content}
     return jsonify(blog_dict)
 
 
@@ -49,11 +49,13 @@ def blog_create():
         temp_article = Article()
         temp_article.author = 'liuzhiyu'
         temp_article.content = markdown_str
+        temp_article.title = title_name
         db.session.add(temp_article)
         db.session.commit()
 
         flask_whooshalchemyplus.index_one_model(Article)
-        return jsonify({'status':True})
+        return jsonify({'status': True})
+
 
 @blog_blueprint.route('/search', methods=['GET', 'POST'])
 def search():
@@ -62,6 +64,8 @@ def search():
         results = Article.query.whoosh_search(query).all()
 
     return render_template('blog/search.html')
+
+
 #     if not request.form['search']:
 #         return redirect(url_for('index'))
 #

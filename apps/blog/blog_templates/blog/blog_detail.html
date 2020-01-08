@@ -32,7 +32,7 @@
 <script type="text/javascript">
     $(function () {
         var content;
-        $.get("/blog/blog_detail_json", function (data, status) {
+        $.get("/blog/blog_detail_json/{{ blog.id }}", function (data, status) {
             if (status == 'success') {
                 content = data.blogcontent;
                 $("#appendTest").text(content);

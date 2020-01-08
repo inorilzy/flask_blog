@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, session, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from settings import config_dict
@@ -12,11 +12,8 @@ def create_app(config_type):
     app = Flask(__name__)
     app.config.from_object(config_dict[config_type])
 
-
     global db
     db = SQLAlchemy(app)
-
-
 
     # 注册蓝图
     from apps.auth import auth_blueprint
@@ -63,6 +60,6 @@ def create_app(config_type):
         if session.get('toastr_error_message') is not None:
             toastr_err_msg = session.get('toastr_error_message')
             session['toastr_error_message'] = None
-
         return dict(info_msg=info_msg, err_msg=err_msg, toastr_info_msg=toastr_info_msg, toastr_err_msg=toastr_err_msg)
+
     return app
