@@ -63,6 +63,16 @@ def search():
         query = request.form['search']
         results = Article.query.whoosh_search(query).all()
 
+        blog_list = []
+        for blog in results:
+            blog_tmp = {}
+            blog_tmp['id'] = blog.id
+            blog_tmp['title'] = blog.title
+            blog_tmp['author'] = blog.author
+            blog_tmp['content'] = blog.content
+            blog_list.append(blog_tmp)
+
+        return render_template('blog/blog_list.html', blog_list=blog_list)
     return render_template('blog/search.html')
 
 
