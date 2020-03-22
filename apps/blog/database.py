@@ -12,3 +12,13 @@ class Article(db.Model):
     author = db.Column(db.String(32))
     title = db.Column(db.String(32))
     content = db.Column(db.Text)
+
+
+def auto_commit():
+    try:
+        db.session.commit()
+    except Exception:
+        db.session.rollback()
+        return {'status': -1}
+    else:
+        return {'status': 1}

@@ -1,36 +1,94 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-  <head>
+<head>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
     <title>{% block title %}{% endblock %}</title>
-
     <!-- ico -->
-    <link rel="shortcut icon" href="{{ url_for('blog.static', filename='images/favicon.ico')}}"/>
-    <link rel="bookmark" href="{{ url_for('blog.static', filename='images/favicon.ico')}}"/>
+    <link rel="shortcut icon" href="{{ url_for('blog.static', filename='images/favicon.ico') }}"/>
+    <link rel="bookmark" href="{{ url_for('blog.static', filename='images/favicon.ico') }}"/>
 
     <!-- Bootstrap -->
-    <link href="{{ url_for('blog.static', filename='bootstrap-3.3.7/css/bootstrap.css') }}" rel="stylesheet">
+    <link href="{{ url_for('blog.static',filename='bootstrap-3.3.7/css/bootstrap.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('blog.static',filename='css/base.css') }}">
+    {% block head %}
+    {% endblock %}
+</head>
+<body>
 
-  </head>
-  <body>
-        <nav class="navbar navbar-default">
-            <div class="container">
-                <p class="navbar-text"><a href="{{ url_for('blog.blog_list') }}">首页</a></p>
-                <p class="navbar-text"><a href="{{ url_for('bio.bio') }}">blog</a></p>
-                <p class="navbar-text"><a href="{{ url_for('bio.bio') }}">bio</a></p>
-                <p class="navbar-text"><a href="{{ url_for('bio.bio') }}">关于</a></p>
+<!--导航栏-->
+<div class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="/blog/blog_list" class="navbar-brand"></a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li><a href="/blog/blog_list">首页</a></li>
+            <li><a href="/blog/blog_list">文章列表</a></li>
+            <li><a href="">关于</a></li>
 
-            </div>
-        </nav>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <form method="post" action="/blog/search" class="navbar-form navbar-left" role="search">
+                <div class="form-group">
+                    <input type="text" name="search_param" class="form-control search-bar" placeholder="Search">
+                    <button type="submit" class="btn btn-default btn-search">搜索</button>
+                </div>
+            </form>
+        </ul>
+    </div>
+</div>
 
-        <div class="container">
+
+<!--主题内容-->
+<div class="container">
+    <div class="row">
+        <!--主要内容-->
+        <div class="col-sm-9">
             {% block content %}{% endblock %}
         </div>
+        <div class="col-sm-3">
+
+            <div class="side-bar-card flag clearfix">
+                <div class="col-xs-5">
+                    <img src="{{url_for('blog.static',filename='images/lzy.png')}}" alt="lzy's logo">
+
+                </div>
+                <div class="col-xs-7">
+                    <div class="text-lg">lzy</div>
+                    <div>文章:999</div>
+                </div>
+            </div>
+            <div class="side-bar-card clearfix">
+                <div class="card-title">分类(待完成)</div>
+                <div class="card-body">
+                    <div class="list">
+                        <div class="item">后端</div>
+                        <div class="item">前端</div>
+                    </div>
+                </div>
+            </div>
+            <div class="side-bar-card clearfix">
+                <div class="card-title">标签(待完成)</div>
+                <div class="card-body">
+                    <div class="list">
+                        <div class="item">Python</div>
+                        <div class="item">css</div>
+                        <div class="item">js</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
 
 
-
-  </body>
+<!--页脚-->
+<div class="footer"></div>
+<script src="{{ url_for('blog.static', filename='js/jquery.min.js') }}"></script>
+<script src="{{ url_for('blog.static', filename='js/base.js') }}"></script>
+</body>
 </html>

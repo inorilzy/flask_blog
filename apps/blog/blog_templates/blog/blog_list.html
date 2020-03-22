@@ -1,16 +1,29 @@
 {% extends 'blog/base.html' %}
-
 {% block title %}
     blog_list
 {% endblock %}
-
 {% block content %}
-    {% for blog in blog_list%}
-        <li><a href="blog_detail/{{ blog.id }}">{{ blog.id }}</a></li>
-        <li>{{ blog.author }}</li>
-        <li><a href="blog_detail/{{ blog.id }}">{{ blog.title }}</a></li>
-        <li>{{ blog.content }}</li>
 
-    {% endfor %}
+    <div class="news-list">
+        {% for blog in blog_list %}
+            <div class="news-list-item clearfix">
+                <div class="col-xs-5">
+                    <a href="/blog/blog_detail/{{ blog.id }}">
+                    <img src="https://dummyimage.com/600x400/000/fff&text=dasabb" alt="">
+                    </a>
+                </div>
+                <div class="col-xs-7">
+                    <a href="/blog/blog_detail/{{ blog.id }}" class="title">{{ blog.title }}</a>
+                    <div class="info">
+                        <span><span class="avatar"><img src="{{url_for('blog.static',filename='images/lzy.png')}}" alt=""></span>{{blog.author}}</span>.
+                        <span>{{ blog.author }}</span>.
+                        <span>王花花</span>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+
+    </div>
 
 {% endblock %}

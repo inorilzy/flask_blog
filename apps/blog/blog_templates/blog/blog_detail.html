@@ -1,10 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8"/>
-    <title>mkToHtmlDemo</title>
-
-    <!--引入样式文件-->
+{% extends 'blog/base.html' %}
+{% block title %}
+    blog_list
+{% endblock %}
+{% block head %}
+    <!--引入css文件-->
     <link rel="stylesheet" href="{{ url_for('blog.static', filename='editormd/examples/css/style.css') }}"/>
     <link rel="stylesheet" href="{{ url_for('blog.static', filename='editormd/css/editormd.preview.css') }}"/>
 
@@ -20,36 +19,55 @@
     <script src="{{ url_for('blog.static', filename='editormd/editormd.js') }}"></script>
 
 
-</head>
 
-<body>
-<!--在该div中展示,如有初始化的数据可以放在textarea中-->
-<div id="testEditorMdview">
-    <textarea id="appendTest"></textarea>
-</div>
+{% endblock %}
+{% block content %}
+    <button class="del_blog">delete</button>
 
-{#    <!--js开始-->#}
-<script type="text/javascript">
-    $(function () {
-        var content;
-        $.get("/blog/blog_detail_json/{{ blog.id }}", function (data, status) {
-            if (status == 'success') {
-                content = data.blogcontent;
-                $("#appendTest").text(content);
-                editormd.markdownToHTML("testEditorMdview", {
-                    htmlDecode: "style,script,iframe", //可以过滤标签解码
-                    emoji: true,
-                    taskList: true,
-                    tex: true,               // 默认不解析
-                    flowChart: true,         // 默认不解析
-                    sequenceDiagram: true,  // 默认不解析
-                    previewTheme:"dark",
-                });
-            }
-        });
-    })
 
-</script>
+    <!--在该div中展示,如有初始化的数据可以放在textarea中-->
+    <div id="testEditorMdview">
+        <textarea id="appendTest"></textarea>
+    </div>
 
-</body>
-</html>
+    {#    <!--js开始-->#}
+    <script type="text/javascript">
+        $(function () {
+            var content;
+            $.get("/blog/blog_detail_json/{{ blog.id }}", function (data, status) {
+                if (status == 'success') {
+                    content = data.blogcontent;
+                    $("#appendTest").text(content);
+                    editormd.markdownToHTML("testEditorMdview", {
+                        htmlDecode: "style,script,iframe", //可以过滤标签解码
+                        emoji: true,
+                        taskList: true,
+                        tex: true,               // 默认不解析
+                        flowChart: true,         // 默认不解析
+                        sequenceDiagram: true,  // 默认不解析
+                        previewTheme: "dark",
+                    });
+                }
+            });
+        })
+
+    </script>
+    <script>
+        $('.del_blog').click(function () {
+            $.get('/blog/remove/{{ blog.id }}',
+                function (data,status) {
+                    if (data.status==1){
+                        swal('删除成功','成功删除了','success')
+                        setTimeout(function(){ window.location.href = '/blog/' }, 1500);
+                    }else if (data.status==-1){
+                        swal('删除失败','数据或程序异常','error')
+                    }
+                })
+        })
+
+    </script>
+    <script src="{{ url_for('blog.static', filename='node_modules/sweetalert/dist/sweetalert.min.js') }}"></script>
+
+{% endblock %}
+
+

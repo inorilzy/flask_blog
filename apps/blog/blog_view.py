@@ -1,15 +1,11 @@
 from . import blog_blueprint
 from flask import render_template, url_for, request, jsonify, redirect
-from ..blog.database import Article
+from ..blog.database import Article, auto_commit
 from apps import db
 import flask_whooshalchemyplus
 
 
 @blog_blueprint.route('/')
-def index():
-    return render_template('blog/base.html')
-
-
 @blog_blueprint.route('/blog_list')
 def blog_list():
     blog_query = db.session.query(Article).all()
@@ -60,8 +56,8 @@ def blog_create():
 @blog_blueprint.route('/search', methods=['GET', 'POST'])
 def search():
     if request.method == 'POST':
-        query = request.form['search']
-        results = Article.query.whoosh_search(query).all()
+        query_arcitle_name = request.form['search_param']
+        results = Article.query.whoosh_search(query_arcitle_name).all()
 
         blog_list = []
         for blog in results:
@@ -76,15 +72,14 @@ def search():
     return render_template('blog/search.html')
 
 
-#     if not request.form['search']:
-#         return redirect(url_for('index'))
-#
-#     return redirect(url_for('search',query=request.form['search']))
-#
-# @blog_blueprint.route('/search_results/<query>')
-# def search_resutls(query):
-#     results = Article.query.whoosh_search(query).all()
-#     return render_template()
+@blog_blueprint.route('/remove/<int:id>')
+def remove_arcitle(id):
+    cur_article = db.session.query(Article).filter(Article.id == id).first()
+    if cur_article is None:
+        return {'status': -1}
+    db.session.delete(cur_article)
+    status = auto_commit()
+    return status
 
 
 @blog_blueprint.route('/about')

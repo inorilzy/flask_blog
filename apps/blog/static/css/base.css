@@ -1,0 +1,106 @@
+
+body {
+    background:url("../images/pxivi_background.png") no-repeat center center;
+    background-size: cover;
+
+}
+
+.row {
+    background-color: rgba(255,255,255,0.9);
+}
+
+.navbar-default {
+    background-color: rgba(255,255,255,0.9);
+}
+
+.navbar-brand {
+    background-image: url("../images/lzy.png");
+    width: 50px;
+    border-radius: 5px;
+    background-size: 80%;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+    border-radius: 5px;
+}
+
+.news-list-item {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.news-list-item:first-child {
+    padding-top: 0;
+}
+
+.news-list-item .title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    line-height: 1.5;
+    display: block;
+    color: #444;
+}
+
+.news-list-item .info {
+    color: #888;
+}
+
+.avatar {
+    display: inline-block;
+}
+
+.avatar img {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    margin-right: 5px;
+}
+
+.title:hover {
+    color: blue;
+    text-decoration: none;
+}
+
+.side-bar-card {
+    background: rgba(0, 0, 0, 0.05);
+    margin: 15px;
+    padding: 20px 0;
+}
+
+.side-bar-card .text-lg {
+    font-size: 150%;
+}
+
+.side-bar-card .card-title,
+.side-bar-card .card-body .list .item {
+    padding: 10px 15px;
+    overflow: hidden;
+
+}
+
+.side-bar-card .card-title {
+    font-size: 18px;
+    font-weight: bold;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.side-bar-card .card-body .list .item:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.card-body .list .item .title {
+    padding-bottom: 5px;
+}
+
+
+
+.side-bar-card {
+    border-radius: 3px;
+}

@@ -2,6 +2,7 @@ from flask import Flask, session, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from settings import config_dict
+# 此包国内源可能没有，需要在 pypi 搜索，git clone 后安装
 import flask_whooshalchemyplus
 from flask_whooshalchemyplus import index_all
 
@@ -26,6 +27,9 @@ def create_app(config_type):
 
     # flask_whooshalchemyplus.index_all(app)
     # 捕获异常
+    @app.route('/')
+    def homepage():
+        return render_template('home.html')
     @app.errorhandler(404)
     def not_found(error):
         return render_template('404.html'), 404
