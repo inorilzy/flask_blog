@@ -1,6 +1,6 @@
 from . import blog_blueprint
 from flask import render_template, url_for, request, jsonify, redirect
-from ..blog.database import Article, auto_commit
+from ..blog.database import Article, Tag, auto_commit
 from apps import db
 import flask_whooshalchemyplus
 

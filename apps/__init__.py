@@ -11,6 +11,7 @@ db = None
 
 def create_app(config_type):
     app = Flask(__name__)
+    print('____________________name________________', __name__)
     app.config.from_object(config_dict[config_type])
 
     global db
@@ -30,6 +31,7 @@ def create_app(config_type):
     @app.route('/')
     def homepage():
         return render_template('home.html')
+
     @app.errorhandler(404)
     def not_found(error):
         return render_template('404.html'), 404
