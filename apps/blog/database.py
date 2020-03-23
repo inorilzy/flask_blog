@@ -1,11 +1,10 @@
 from apps import db
 from jieba.analyse.analyzer import ChineseAnalyzer
 
-
 article_to_tag = db.Table('article_to_tag',
-               db.Column('article_id', db.Integer, db.ForeignKey('article.id')),
-               db.Column('tag_id', db.Integer, db.ForeignKey('tag.id'))
-               )
+                          db.Column('article_id', db.Integer, db.ForeignKey('article.id')),
+                          db.Column('tag_id', db.Integer, db.ForeignKey('tag.id'))
+                          )
 
 
 class Article(db.Model):
