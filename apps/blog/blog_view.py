@@ -82,6 +82,32 @@ def remove_arcitle(id):
     return status
 
 
+@blog_blueprint.route('/tags')
+def tags():
+    tags = db.session.query(Tag).filter(Tag.tag_name != None).all()
+    tags_list = []
+    for tag in tags:
+        tag_d = {}
+        tag_d['id'] = tag.id
+        tag_d['name'] = tag.tag_name
+        tags_list.append(tag_d)
+    return jsonify(tags_list)
+
+
+@blog_blueprint.route('/tag/<int:id>')
+def tag(id):
+    blog_query = db.session.query(Tag).filter(Tag.id==id).first().articles
+    blog_list = []
+    for blog in blog_query:
+        blog_tmp = {}
+        blog_tmp['id'] = blog.id
+        blog_tmp['title'] = blog.title
+        blog_tmp['author'] = blog.author
+        blog_tmp['content'] = blog.content
+        blog_list.append(blog_tmp)
+    return render_template('blog/blog_list.html', blog_list=blog_list)
+
+
 @blog_blueprint.route('/about')
 def about():
     return render_template('blog/about.html')

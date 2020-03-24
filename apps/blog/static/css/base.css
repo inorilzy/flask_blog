@@ -104,3 +104,8 @@ img {
 .side-bar-card {
     border-radius: 3px;
 }
+
+.tags_list .item {
+    display: block;
+    text-decoration: none;
+}

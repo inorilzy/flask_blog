@@ -11,7 +11,6 @@ db = None
 
 def create_app(config_type):
     app = Flask(__name__)
-    print('____________________name________________', __name__)
     app.config.from_object(config_dict[config_type])
 
     global db

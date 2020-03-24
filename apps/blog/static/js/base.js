@@ -1,5 +1,3 @@
-
-
 // $('.btn-search').click(function(){
 //     console.log(1)
 //     $.post('/blog/search',
@@ -19,3 +17,15 @@
 //         }
 //     })
 // })
+
+(function () {
+    $.get("/blog/tags", function (data, status) {
+        for (let i = 0; i < data.length; i++) {
+            let tag_id = data[i].id
+            let tag_str = '/blog/tag/'+tag_id
+            $('.tags_list').append('<a class="item" href="#">' + data[i].name + '</a>')
+            $('.tags_list .item').last().attr("href",tag_str)
+        }
+
+    });
+})();
