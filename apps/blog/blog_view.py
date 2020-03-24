@@ -1,6 +1,6 @@
 from . import blog_blueprint
 from flask import render_template, url_for, request, jsonify, redirect
-from ..blog.database import Article, Tag, auto_commit
+from ..blog.database import Article, Tag, Classify, auto_commit
 from apps import db
 import flask_whooshalchemyplus
 
@@ -96,7 +96,7 @@ def tags():
 
 @blog_blueprint.route('/tag/<int:id>')
 def tag(id):
-    blog_query = db.session.query(Tag).filter(Tag.id==id).first().articles
+    blog_query = db.session.query(Tag).filter(Tag.id == id).first().articles
     blog_list = []
     for blog in blog_query:
         blog_tmp = {}
@@ -111,3 +111,28 @@ def tag(id):
 @blog_blueprint.route('/about')
 def about():
     return render_template('blog/about.html')
+
+
+@blog_blueprint.route('/classifies')
+def classifies():
+    base_query = db.session.query(Classify).filter(Classify.name!=None).all()
+    classifies_list = []
+    for classify in base_query:
+        t = {}
+        t['id'] = classify.id
+        t['name'] = classify.name
+        classifies_list.append(t)
+    return jsonify(classifies_list)
+
+@blog_blueprint.route('/classify/<int:id>')
+def classify(id):
+    articles_query = db.session.query(Classify).filter(Classify.id==id).first().articles
+    blog_list = []
+    for blog in articles_query:
+        blog_tmp = {}
+        blog_tmp['id'] = blog.id
+        blog_tmp['title'] = blog.title
+        blog_tmp['author'] = blog.author
+        blog_tmp['content'] = blog.content
+        blog_list.append(blog_tmp)
+    return render_template('blog/blog_list.html', blog_list=blog_list)

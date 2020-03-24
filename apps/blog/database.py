@@ -17,6 +17,14 @@ class Article(db.Model):
     title = db.Column(db.String(32))
     content = db.Column(db.Text)
     tag = db.relationship('Tag', secondary='article_to_tag', backref=db.backref('articles'), lazy='dynamic')
+    classify_id = db.Column(db.INTEGER, db.ForeignKey('classify.id'))
+    classify = db.relationship('Classify', backref=db.backref('articles'))
+
+
+class Classify(db.Model):
+    __tablename__ = 'classify'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(32))
 
 
 class Tag(db.Model):
