@@ -29,3 +29,15 @@
 
     });
 })();
+
+(function () {
+    $.get("/blog/classifies", function (data, status) {
+        for (let i = 0; i < data.length; i++) {
+            let classify_id = data[i].id
+            let classify_str = '/blog/classify/'+classify_id
+            $('.classifies_list').append('<a class="item" href="#">' + data[i].name + '</a>')
+            $('.classifies_list .item').last().attr("href",classify_str)
+        }
+
+    });
+})();

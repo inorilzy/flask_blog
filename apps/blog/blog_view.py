@@ -8,6 +8,7 @@ import flask_whooshalchemyplus
 @blog_blueprint.route('/')
 @blog_blueprint.route('/blog_list')
 def blog_list():
+    '''博客列表'''
     blog_query = db.session.query(Article).all()
     blog_list = []
     for blog in blog_query:
@@ -24,7 +25,6 @@ def blog_list():
 @blog_blueprint.route('/blog_detail/<int:id>')
 def blog_detail(id):
     blog = {'id': id}
-
     return render_template('blog/blog_detail.html', blog=blog)
 
 
@@ -108,14 +108,9 @@ def tag(id):
     return render_template('blog/blog_list.html', blog_list=blog_list)
 
 
-@blog_blueprint.route('/about')
-def about():
-    return render_template('blog/about.html')
-
-
 @blog_blueprint.route('/classifies')
 def classifies():
-    base_query = db.session.query(Classify).filter(Classify.name!=None).all()
+    base_query = db.session.query(Classify).filter(Classify.name != None).all()
     classifies_list = []
     for classify in base_query:
         t = {}
@@ -124,9 +119,10 @@ def classifies():
         classifies_list.append(t)
     return jsonify(classifies_list)
 
+
 @blog_blueprint.route('/classify/<int:id>')
 def classify(id):
-    articles_query = db.session.query(Classify).filter(Classify.id==id).first().articles
+    articles_query = db.session.query(Classify).filter(Classify.id == id).first().articles
     blog_list = []
     for blog in articles_query:
         blog_tmp = {}
@@ -136,3 +132,8 @@ def classify(id):
         blog_tmp['content'] = blog.content
         blog_list.append(blog_tmp)
     return render_template('blog/blog_list.html', blog_list=blog_list)
+
+
+@blog_blueprint.route('/about')
+def about():
+    return render_template('blog/about.html')

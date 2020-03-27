@@ -105,7 +105,9 @@ img {
     border-radius: 3px;
 }
 
-.tags_list .item {
+.tags_list .item,
+.classifies_list .item {
     display: block;
     text-decoration: none;
+    color: black;
 }
