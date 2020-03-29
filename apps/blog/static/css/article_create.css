@@ -1,0 +1,20 @@
+#title {
+    display: block;
+    width: 90%;
+    margin-left: 57px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+.btn_commit {
+    margin-left: 57px;
+    background-color: green;
+}
+
+.blog_create_container {
+    margin-left: 57px;
+}
+
+.tag_input {
+    width: 75%;
+}
