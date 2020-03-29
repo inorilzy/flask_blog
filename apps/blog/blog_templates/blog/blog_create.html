@@ -7,41 +7,83 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>blog_create</title>
     <link rel="stylesheet" href="{{ url_for('blog.static',filename='editormd/css/editormd.css') }}"/>
+
+    <link rel="stylesheet" href="{{ url_for('blog.static', filename='bootstrap-3.3.7/css/bootstrap.css') }}">
+    <link rel="stylesheet"
+          href="{{ url_for('blog.static', filename='node_modules/bootstrap-select/dist/css/bootstrap-select.css') }}">
+    <link rel="stylesheet" href="{{ url_for('blog.static', filename='css/article_create.css') }}">
 </head>
 <body>
-    <input type="text" id="title">
+
+<div class="container">
+    <input class="form-control" type="text" id="title" placeholder="请输入文章题目">
     <div id="test-editor">
-        <textarea style="display:none;">
-
-        </textarea>
+        <textarea style="display:none;"></textarea>
     </div>
-    <input type="button" id="Btn" value="commit">
-    <script src="{{ url_for('blog.static',filename='js/jquery.min.js')}}"></script>
-    <script src="{{ url_for('blog.static',filename='editormd/editormd.min.js') }}"></script>
-    <script type="text/javascript">
-        $(function () {
-            var editor = editormd("test-editor", {
-                width  : "100%",
-                height : "740",
-                path: " {{ url_for('blog.static', filename='editormd/lib/') }}",
-                saveHTMLToTextarea: true,
-                theme: "dark",
-                previewTheme: "dark",
-                {#editorTheme: "pastel-on-dark",#}
-            });
+    <div class="container blog_create_container">
+        <div class="col-sm-6">
+            <label for="">分类:</label>
+            <select name="classify" id="classify" class="selectpicker">
 
-            $("#Btn").click(function () {
-                var title_name = $("#title").val()
-                var str = editor.getMarkdown();
-                var url = "{{ url_for('blog.blog_create') }}";
-                var data = {title: title_name, text: str};
+            </select>
+        </div>
+        <div class="col-sm-6">
+            <input type="text" class="form-control tag_input" placeholder="请输入标签，多个标签用空格隔开">
+        </div>
+    </div>
+    <input type="button" id="Btn" class="btn btn_commit" value="commit">
+</div>
 
-                $.post(url, data, function (data, status) {
-                    console.log(data + status)
-                });
+<script src="{{ url_for('blog.static',filename='js/jquery.min.js') }}"></script>
+<script src="{{ url_for('blog.static',filename='editormd/editormd.min.js') }}"></script>
+<script src="{{ url_for('blog.static', filename='node_modules/sweetalert/dist/sweetalert.min.js') }}"></script>
+<script src="{{ url_for('blog.static', filename='bootstrap-3.3.7/js/bootstrap.js') }}"></script>
+<script src="{{ url_for('blog.static', filename='node_modules/bootstrap-select/dist/js/bootstrap-select.js') }}"></script>
+<script type="text/javascript">
+    $(function () {
+        var editor = editormd("test-editor", {
+            width: "90%",
+            height: "740",
+            path: " {{ url_for('blog.static', filename='editormd/lib/') }}",
+            saveHTMLToTextarea: true,
+            theme: "dark",
+            previewTheme: "dark",
+            editorTheme: "pastel-on-dark",
+        });
+
+        $("#Btn").click(function () {
+            var title_name = $("#title").val()
+            var str = editor.getMarkdown();
+            var classify_id = $('.selectpicker').val()
+            var tag = $('.tag_input').val()
+            var url = "{{ url_for('blog.blog_create') }}";
+            var data = {title: title_name, text: str, classify_id: classify_id, tag: tag};
+
+            $.post(url, data, function (data, status) {
+                if (data.status == 'success') {
+                    swal('提交成功', '文章提交成功', 'success')
+                    setTimeout(function () {
+                        window.location.href = '/blog/blog_create'
+                    }, 1500);
+                }
             });
         });
-    </script>
+    });
+</script>
+<script>
+    (function () {
+        $.get("/blog/classifies", function (data, status) {
+            for (let i = 0; i < data.length; i++) {
+                let classify_id = data[i].id
+                let classify_str = '/blog/classify/' + classify_id
+                let classify_name = data[i].name
+                $('#classify').append('<option class="item" value="1">' + data[i].name + '</option>')
+                $('#classify .item').last().attr("value", classify_id)
+            }
+
+        });
+    })();
+</script>
 </body>
 </html>
 

@@ -52,6 +52,7 @@
         })
 
     </script>
+    <script src="{{ url_for('blog.static', filename='node_modules/sweetalert/dist/sweetalert.min.js') }}"></script>
     <script>
         $('.del_blog').click(function () {
             $.get('/blog/remove/{{ blog.id }}',
@@ -66,7 +67,7 @@
         })
 
     </script>
-    <script src="{{ url_for('blog.static', filename='node_modules/sweetalert/dist/sweetalert.min.js') }}"></script>
+
 
 {% endblock %}
 
