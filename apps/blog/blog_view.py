@@ -5,15 +5,15 @@ from apps import db
 import flask_whooshalchemyplus
 
 
-@blog_blueprint.route('/')
-@blog_blueprint.route('/blog_list')
+@blog_blueprint.route('/', defaults={'page': 0})
+@blog_blueprint.route('/blog_list', defaults={'page': 0})
 @blog_blueprint.route('/blog_list/<int:page>')
-def blog_list(page=0):
+def blog_list(page):
     '''博客列表'''
 
     count_per_page = 10
     all_blog_count = len(db.session.query(Article).all())
-    blog_query = db.session.query(Article).limit(count_per_page).offset(page*count_per_page).all()
+    blog_query = db.session.query(Article).limit(count_per_page).offset(page * count_per_page).all()
     blog_list = []
     for blog in blog_query:
         blog_tmp = {}
@@ -23,7 +23,8 @@ def blog_list(page=0):
         blog_tmp['content'] = blog.content
         blog_list.append(blog_tmp)
 
-    return render_template('blog/blog_list.html', blog_list=blog_list, max_page=all_blog_count//count_per_page+1, cur_page=page)
+    return render_template('blog/blog_list.html', blog_list=blog_list, max_page=all_blog_count // count_per_page + 1,
+                           cur_page=page)
 
 
 @blog_blueprint.route('/blog_detail/<int:id>')
@@ -47,12 +48,12 @@ def blog_create():
         title_name = request.form.get('title')
         markdown_str = request.form.get('text')
         classify_id = request.form.get('classify_id')
-        classify = db.session.query(Classify).filter(Classify.id==classify_id).first()
+        classify = db.session.query(Classify).filter(Classify.id == classify_id).first()
         tags = request.form.get('tag').split()
         temp_article = Article()
         if tags:
             for tag in tags:
-                cur_tag = db.session.query(Tag).filter(Tag.tag_name==tag).first()
+                cur_tag = db.session.query(Tag).filter(Tag.tag_name == tag).first()
                 if cur_tag:
                     temp_article.tag.append(cur_tag)
                 else:

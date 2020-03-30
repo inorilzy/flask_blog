@@ -26,7 +26,7 @@ def create_app(config_type):
     flask_whooshalchemyplus.init_app(app)
 
     # flask_whooshalchemyplus.index_all(app)
-    # 捕获异常
+
     @app.route('/')
     def homepage():
         return render_template('home.html')

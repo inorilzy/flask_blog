@@ -2,9 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>homef</title>
+    <title>home</title>
+{#    <link rel="stylesheet" href="{{ url_for('static',filename='css/homepage.css') }}">#}
 </head>
 <body>
-    <h1>home index</h1>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/jquery.min.js') }}"></script>
+    <script type="text/javascript">
+        $(function() {
+            window.location.href = '{{ url_for("blog.blog_list") }}';
+        });
+    </script>
 </body>
 </html>
